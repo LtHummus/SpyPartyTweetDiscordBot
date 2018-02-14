@@ -1,0 +1,10 @@
+{
+  "twitter-consumer-key": "",
+  "twitter-consumer-secret": "",
+  "twitter-access-key": "",
+  "twitter-access-secret": "",
+
+  "twitter-id-to-monitor": 0,
+
+  "discord-webhook": ""
+}

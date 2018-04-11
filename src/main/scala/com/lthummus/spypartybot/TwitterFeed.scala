@@ -31,6 +31,7 @@ object TwitterFeed extends App {
   val twitterAccessTokenSecret = (config \ "twitter-access-secret").extract[String]
 
   val toFollow = (config \ "twitter-id-to-monitor").extract[Long]
+  val thumbnailThreshold = (config \ "thumbnail-threshold").extract[Int]
 
   implicit val discordWebhook: String = (config \ "discord-webhook").extract[String]
 
@@ -38,14 +39,22 @@ object TwitterFeed extends App {
   private val TwitterAccessToken = AccessToken(key = twitterAccessTokenKey, secret = twitterAccessTokenSecret)
 
   Logger.info("Finished reading configuration")
+  Logger.info("Thumbnail threshold: {}", thumbnailThreshold)
 
   private def extractUrls(tweet: Tweet): Seq[String] = {
     tweet.entities match {
       case Some(entityList) if entityList.urls.nonEmpty =>
         entityList.urls.map(details => {
           val expandedUrl = details.expanded_url
-          Logger.info(s"Found URL: $expandedUrl")
-          s"New SpyParty Stream: <$expandedUrl>"
+
+          val timesStreamed = expandedUrl.substring(expandedUrl.lastIndexOf('#') + 1).toInt
+          Logger.info(s"Found URL: $expandedUrl which has streamed $timesStreamed")
+          if (timesStreamed >= thumbnailThreshold) {
+            s"New SpyParty Stream: $expandedUrl"
+          } else {
+            s"New SpyParty Stream: <$expandedUrl>"
+          }
+
         })
       case _ => Seq()
     }

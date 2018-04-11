@@ -6,5 +6,7 @@
 
   "twitter-id-to-monitor": 0,
 
-  "discord-webhook": ""
+  "discord-webhook": "",
+
+  "thumbnail-threshold": 10
 }

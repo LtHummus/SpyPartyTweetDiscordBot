@@ -15,8 +15,7 @@ import scala.concurrent.{ExecutionContext, Future}
 
 object TwitterFeed extends App {
   implicit val Formats = DefaultFormats
-  //doing this in a single thread for now...is it a good idea? who knows!?
-  implicit val context = ExecutionContext.fromExecutor(Executors.newSingleThreadExecutor())
+  implicit val context = ExecutionContext.fromExecutor(Executors.newFixedThreadPool(5))
 
   val Logger = LoggerFactory.getLogger("TwitterFeed")
 
@@ -58,6 +57,13 @@ object TwitterFeed extends App {
         })
       case _ => Seq()
     }
+  }
+
+  def errorHandler: PartialFunction[Throwable, Unit] = {
+    case e: Throwable =>
+      Logger.error("Got a fatal error from stream", e)
+      System.exit(2)
+
   }
 
   def post: PartialFunction[UserStreamingMessage, Unit] = {

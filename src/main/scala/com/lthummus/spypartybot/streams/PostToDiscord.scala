@@ -1,8 +1,7 @@
-package com.lthummus.spypartybot
+package com.lthummus.spypartybot.streams
 
-import org.json4s._
-import org.json4s.native.JsonMethods._
 import org.json4s.JsonDSL._
+import org.json4s.native.JsonMethods.{compact, render}
 import org.slf4j.LoggerFactory
 import scalaj.http.Http
 

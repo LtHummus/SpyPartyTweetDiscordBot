@@ -69,3 +69,5 @@ jrebel.lic
 /.lib/
 
 config.json
+application.conf
+

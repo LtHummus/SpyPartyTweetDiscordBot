@@ -1,6 +1,6 @@
 package com.lthummus.spypartybot
 
-import com.lthummus.spypartybot.scltagging.SclTagger
+import com.lthummus.spypartybot.discord.DiscordListener
 import com.lthummus.spypartybot.streams.TwitterFeedJava
 import org.slf4j.LoggerFactory
 import org.slf4j.impl.SimpleLogger
@@ -32,7 +32,7 @@ object Main extends App {
     new Thread(() => {
       Logger.info("Starting Discord ROLE manager")
       try {
-        new SclTagger()
+        new DiscordListener()
       } catch {
         case e: Throwable => Logger.warn("Got error from discord thread. Restarting", e)
       }

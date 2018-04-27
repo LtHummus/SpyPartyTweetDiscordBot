@@ -23,6 +23,8 @@ object Config {
   def discordBotToken: String = configTree.getString("discord.token")
   def discordChannelId: Long = configTree.getLong("discord.channelid")
   def discordGuildId: Long = configTree.getLong("discord.guildid")
-  def discordRoleId: Long = configTree.getLong("discord.roleid")
+  def discordSclRoleId: Long = configTree.getLong("discord.sclroleid")
+  def discordLfgRoleId: Long = configTree.getLong("discord.lfgroleid")
+  def discordLfgTimeoutMinutes: Int = configTree.getInt("discord.lfgtimeout")
 
 }

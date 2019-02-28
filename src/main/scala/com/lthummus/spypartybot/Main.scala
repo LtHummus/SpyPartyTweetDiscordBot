@@ -13,7 +13,7 @@ object Main extends App {
   Logger.info("Hello world!")
 
   //start tweet stream
-  if (Config.streamsEnabled) {
+  if (BotConfig.streamsEnabled) {
     new Thread(() => {
       while (true) {
         Logger.info("Starting tweet thread")
@@ -28,7 +28,7 @@ object Main extends App {
     }).start()
   }
 
-  if (Config.discordEnabled) {
+  if (BotConfig.discordEnabled) {
     new Thread(() => {
       Logger.info("Starting Discord ROLE manager")
       try {

@@ -2,7 +2,7 @@ package com.lthummus.spypartybot.streams
 
 import java.util.concurrent.Executors
 
-import com.lthummus.spypartybot.{Config, LinkCache}
+import com.lthummus.spypartybot.{BotConfig, LinkCache}
 import org.slf4j.LoggerFactory
 import twitter4j._
 import twitter4j.conf.ConfigurationBuilder
@@ -16,20 +16,20 @@ class TwitterFeedJava {
   private val Logger = LoggerFactory.getLogger("TwitterFeed")
 
 
-  private val twitterConsumerTokenKey = Config.twitterConsumerKey
-  private val twitterConsumerTokenSecret = Config.twitterConsumerSecret
-  private val twitterAccessTokenKey = Config.twitterAccessKey
-  private val twitterAccessTokenSecret = Config.twitterAccessSecret
+  private val twitterConsumerTokenKey = BotConfig.twitterConsumerKey
+  private val twitterConsumerTokenSecret = BotConfig.twitterConsumerSecret
+  private val twitterAccessTokenKey = BotConfig.twitterAccessKey
+  private val twitterAccessTokenSecret = BotConfig.twitterAccessSecret
 
-  private val toFollow = Config.streamIdToMonitor
-  private val thumbnailThreshold = Config.streamThumbnailThreshold
+  private val toFollow = BotConfig.streamIdToMonitor
+  private val thumbnailThreshold = BotConfig.streamThumbnailThreshold
 
-  private val expansionBlacklist = Config.streamBlacklist
+  private val expansionBlacklist = BotConfig.streamBlacklist
 
   Logger.info(s"Expansion blacklist contains ${expansionBlacklist.size} elements")
   expansionBlacklist.foreach(x => Logger.info(s"Banned $x"))
 
-  implicit val discordWebhook: String = Config.streamWebhook
+  implicit val discordWebhook: String = BotConfig.streamWebhook
 
   private val cache = new LinkCache()
 

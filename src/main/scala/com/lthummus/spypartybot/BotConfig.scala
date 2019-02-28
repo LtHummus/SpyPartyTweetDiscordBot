@@ -1,12 +1,25 @@
 package com.lthummus.spypartybot
 
-import com.typesafe.config.ConfigFactory
+import java.io.File
+
+import com.typesafe.config.{Config, ConfigFactory}
+import org.slf4j.LoggerFactory
+
 import scala.collection.JavaConverters._
 
 
-object Config {
+object BotConfig {
 
-  private lazy val configTree = ConfigFactory.load()
+  private def Logger = LoggerFactory.getLogger("BotConfig")
+
+  private def loadConfig: Config = {
+    sys.env.get("CONFIG_FILE_PATH") match {
+      case Some(filePath) => Logger.info("Loading config from {}", filePath); ConfigFactory.parseFile(new File(filePath))
+      case None           => Logger.info("Loading default config"); ConfigFactory.load()
+    }
+  }
+
+  private lazy val configTree = loadConfig
 
   def twitterConsumerKey: String = configTree.getString("twitter.consumerkey")
   def twitterConsumerSecret: String = configTree.getString("twitter.consumersecret")

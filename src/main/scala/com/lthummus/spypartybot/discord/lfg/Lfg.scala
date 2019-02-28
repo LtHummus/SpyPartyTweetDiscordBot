@@ -2,7 +2,7 @@ package com.lthummus.spypartybot.discord.lfg
 
 import java.util.concurrent.{Executors, TimeUnit}
 
-import com.lthummus.spypartybot.Config
+import com.lthummus.spypartybot.BotConfig
 import net.dv8tion.jda.core.entities.{Member, Message, User}
 import net.dv8tion.jda.core.managers.{GuildController, GuildManager}
 import org.slf4j.LoggerFactory
@@ -14,8 +14,8 @@ class Lfg {
   import Lfg.Logger
 
   private val executor = Executors.newScheduledThreadPool(3)
-  private val lfgRoleId = Config.discordLfgRoleId
-  private val lfgTimeoutMinutes = Config.discordLfgTimeoutMinutes
+  private val lfgRoleId = BotConfig.discordLfgRoleId
+  private val lfgTimeoutMinutes = BotConfig.discordLfgTimeoutMinutes
 
   private def hasLfgRole(member: Member): Boolean = {
     member.getRoles.asScala.count(_.getIdLong == lfgRoleId) > 0

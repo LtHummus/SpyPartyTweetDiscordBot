@@ -1,6 +1,6 @@
 package com.lthummus.spypartybot.discord
 
-import com.lthummus.spypartybot.Config
+import com.lthummus.spypartybot.BotConfig
 import com.lthummus.spypartybot.discord.lfg.Lfg
 import net.dv8tion.jda.core.entities.Message
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent
@@ -9,7 +9,7 @@ import net.dv8tion.jda.core.{AccountType, JDABuilder}
 
 class DiscordListener {
 
-  private val channelId = Config.discordChannelId
+  private val channelId = BotConfig.discordChannelId
   private val lfg = new Lfg()
   private val helpText =
     """
@@ -40,7 +40,7 @@ class DiscordListener {
     }
   }
 
-  private val api = new JDABuilder(AccountType.BOT).setToken(Config.discordBotToken).buildAsync()
+  private val api = new JDABuilder(AccountType.BOT).setToken(BotConfig.discordBotToken).buildAsync()
   api.addEventListener(listener)
 
 }

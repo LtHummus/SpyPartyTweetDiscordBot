@@ -18,7 +18,7 @@ object Main extends App {
       while (true) {
         Logger.info("Starting tweet thread")
         try {
-          new TwitterFeedJava()
+          new TwitterFeedJava().go()
         } catch {
           case e: Throwable => Logger.warn("Got error from twitter thread. Restarting", e)
         }

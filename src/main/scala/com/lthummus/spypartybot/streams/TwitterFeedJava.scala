@@ -85,11 +85,13 @@ class TwitterFeedJava {
 
     override def onStallWarning(warning: StallWarning): Unit = {
       Logger.error("Stall warning")
+      System.exit(1)
       $LOCK.notify()
     }
 
     override def onException(ex: Exception): Unit = {
       Logger.error("Exception from stream", ex)
+      System.exit(1)
       $LOCK.notify()
     }
   }
@@ -105,19 +107,24 @@ class TwitterFeedJava {
   private val stream = new TwitterStreamFactory(auth).getInstance()
   stream.addListener(listener)
 
-  val query = new FilterQuery()
-  query.follow(toFollow)
 
-  stream.filter(query)
+  def go(): Unit = {
+    val query = new FilterQuery()
+    query.follow(toFollow)
 
-  try {
-    $LOCK.synchronized(
-      $LOCK.wait()
-    )
-  } catch {
-    case _: InterruptedException => //nop
+    stream.filter(query)
+
+    try {
+      $LOCK.synchronized(
+        $LOCK.wait()
+      )
+    } catch {
+      case _: InterruptedException => //nop
+    }
+
+    stream.shutdown()
+    throw new IllegalMonitorStateException("Thread died :(")
   }
 
-  stream.shutdown()
 
 }

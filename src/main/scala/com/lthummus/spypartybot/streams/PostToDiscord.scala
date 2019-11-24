@@ -22,11 +22,12 @@ object PostToDiscord {
 
     val res = Http(webhookUrl)
       .postData(payload)
+      .header("content-type", "application/json")
       .asString
 
-    Logger.info(s"Response body: `${res.body}")
+    Logger.info(s"Response body: `${res.body}`")
     res.code
 
   }
-
 }
+

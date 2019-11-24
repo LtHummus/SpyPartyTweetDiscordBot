@@ -17,9 +17,11 @@ object PostToDiscord {
 
   def postToDiscord(msg: String)(implicit webhookUrl: String): Int = {
     Logger.info("Posting \"{}\" to Discord", msg)
+    val payload = makePayload(msg)
+    Logger.info(s"Payload = `$payload`")
 
     Http(webhookUrl)
-      .postData(makePayload(msg))
+      .postData(payload)
       .asString
       .code
 

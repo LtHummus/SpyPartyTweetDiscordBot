@@ -25,9 +25,13 @@ class TwitterFeedJava {
   private val thumbnailThreshold = BotConfig.streamThumbnailThreshold
 
   private val expansionBlacklist = BotConfig.streamBlacklist
+  private val suppressList = BotConfig.streamSuppress
 
   Logger.info(s"Expansion blacklist contains ${expansionBlacklist.size} elements")
-  expansionBlacklist.foreach(x => Logger.info(s"Banned $x"))
+  expansionBlacklist.foreach(x => Logger.info(s"Banned from expansion $x"))
+
+  Logger.info(s"Suppression list contains ${suppressList.size} elements")
+  suppressList.foreach(x => Logger.info(s"Suppressing $x"))
 
   implicit val discordWebhook: String = BotConfig.streamWebhook
 
@@ -51,7 +55,10 @@ class TwitterFeedJava {
         Logger.info(s"Found URL: $parsedUrl")
         cache.insert(parsedUrl.fullUrl)
 
-        if (parsedUrl.timesStreamed >= thumbnailThreshold && !expansionBlacklist.contains(parsedUrl.username)) {
+        if (suppressList.contains(parsedUrl.username)) {
+          Logger.info(s"Skipping ${parsedUrl.username} since it's suppressed")
+          None
+        } else if (parsedUrl.timesStreamed >= thumbnailThreshold && !expansionBlacklist.contains(parsedUrl.username)) {
           Some(s"New SpyParty Stream: ${parsedUrl.fullUrl}")
         } else {
           Some(s"New SpyParty Stream: <${parsedUrl.fullUrl}>")

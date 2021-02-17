@@ -31,6 +31,7 @@ object BotConfig {
   def streamWebhook: String = configTree.getString("streams.webhook")
   def streamThumbnailThreshold: Int = configTree.getInt("streams.thumbnailthreshold")
   def streamBlacklist: Set[String] = configTree.getStringList("streams.blacklist").asScala.toSet
+  def streamSuppress: Set[String] = configTree.getStringList("streams.suppress").asScala.toSet
 
   def discordEnabled: Boolean = configTree.getBoolean("discord.enabled")
   def discordBotToken: String = configTree.getString("discord.token")
